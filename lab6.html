@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>LAB6 PROGRAM</title>
+    <!-- Include AngularJS library from CDN -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <script>
+        // Create an AngularJS module named "myApp"
+        var app = angular.module("myApp", []);
+
+        // Create an AngularJS controller named "myCntrl" within the "myApp" module
+        app.controller("myCntrl", function ($scope) {
+            // Initialize an array of tasks with sample data
+            $scope.tasks = [
+                { "TITLE": "Task-1", "COMPLETED": true, "EDITING": false },
+                { "TITLE": "Task-2", "COMPLETED": false, "EDITING": false },
+                { "TITLE": "Task-3", "COMPLETED": true, "EDITING": false }
+            ];
+
+            // Function to add a new task
+            $scope.addtask = function () {
+                if ($scope.newtask) {
+                    var t = {
+                        'TITLE': $scope.newtask,
+                        'COMPLETED': false,
+                        'EDITING': false
+                    };
+                    $scope.tasks.push(t);
+                } else {
+                    alert("Please enter the task to add");
+                }
+            };
+
+            // Function to enable editing mode for a task
+            $scope.edittask = function (task) {
+                task.EDITING = true;
+            };
+
+            // Function to turn off editing mode for a task
+            $scope.turnOffEditing = function (task) {
+                task.EDITING = false;
+            };
+
+            // Function to delete a task
+            $scope.deletetask = function (task) {
+                var index = $scope.tasks.indexOf(task);
+                $scope.tasks.splice(index, 1);
+            };
+        });
+    </script>
+</head>
+
+<body ng-app="myApp">
+    <h1>TO DO APPLICATION</h1>
+
+    <!-- Use the "myCntrl" controller for this section of the HTML -->
+    <div ng-controller="myCntrl">
+        <!-- Input field for entering the name of the task -->
+        Enter the Name of the Task: <input type="text" ng-model="newtask">
+
+        <!-- Button to add a new task -->
+        <button ng-click="addtask()">ADD TASK</button><br/>
+
+        <!-- Display tasks as an unordered list -->
+        <ul>
+            <!-- Use ng-repeat to iterate through tasks and display them -->
+            <li ng-repeat="task in tasks">
+                <!-- Checkbox for marking task as completed -->
+                <input type="checkbox" ng-model="task.COMPLETED">
+
+                <!-- Display task title with conditional editing mode -->
+                <span ng-show="!task.EDITING">{{task.TITLE}}</span>
+                <input type="text" ng-show="task.EDITING" ng-model="task.TITLE" ng-blur="turnOffEditing(task)">
+
+                <!-- Buttons for editing and deleting tasks -->
+                <button ng-click="edittask(task)">EDIT</button>
+                <button ng-click="deletetask(task)">DELETE</button>
+            </li>
+        </ul>
+    </div>
+</body>
+
+</html>

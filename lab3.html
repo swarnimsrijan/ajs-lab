@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>LAB3 PROGRAM</title>
+    <!-- Include AngularJS library from CDN -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <script>
+        // Create an AngularJS module named "myApp"
+        var app = angular.module("myApp", []);
+
+        // Create an AngularJS controller named "myCntrl" within the "myApp" module
+        app.controller("myCntrl", function ($scope) {
+            // Initialize variables in the controller's scope
+            $scope.num1 = 0;
+            $scope.num2 = 0;
+            $scope.result = 0;
+            $scope.operator = "add"; // Default operator is addition
+
+            // Function to perform computation based on the selected operator
+            $scope.compute = function () {
+                switch ($scope.operator) {
+                    case 'add':
+                        $scope.result = $scope.num1 + $scope.num2;
+                        break;
+                    case 'sub':
+                        $scope.result = $scope.num1 - $scope.num2;
+                        break;
+                    case 'mul':
+                        $scope.result = $scope.num1 * $scope.num2;
+                        break;
+                    case 'div':
+                        if ($scope.num2 == 0)
+                            alert("Divide by zero error");
+                        else
+                            $scope.result = $scope.num1 / $scope.num2;
+                        break;
+                }
+            };
+        });
+    </script>
+</head>
+
+<body ng-app="myApp">
+    <h1>SIMPLE CALCULATOR</h1>
+
+    <!-- Use the "myCntrl" controller for this section of the HTML -->
+    <div ng-controller="myCntrl">
+        <!-- Input field for the first number -->
+        Enter First Number: <input type="number" ng-model="num1">
+
+        <!-- Dropdown to select the operator -->
+        Select Operator:
+        <select ng-model="operator">
+            <option value="add">+</option>
+            <option value="sub">-</option>
+            <option value="mul">*</option>
+            <option value="div">/</option>
+        </select>
+
+        <!-- Input field for the second number -->
+        Enter Second Number: <input type="number" ng-model="num2"><br/><br />
+
+        <!-- Button to trigger the computation -->
+        <button ng-click="compute()">COMPUTE</button>
+
+        <!-- Display the result of the computation -->
+        <br /> {{num1 + " " + operator + " " + num2 + " = " + result}}
+    </div>
+</body>
+
+</html>

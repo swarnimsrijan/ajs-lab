@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lab3 program</title>
+        <script type = "text/javascript" src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <script>
+            var app = angular.module("myApp", []);
+            app.controller("myCntrl", function($scope){
+                $scope.tasks = [
+                    {'Title' :'Task1',  'completed' : true, 'Editing': false},
+                    {'Title' :'Task2',  'completed' : true, 'Editing': false},
+                    {'Title' :'Task3',  'completed' : true, 'Editing': false}
+                ]
+                $scope.add = function(){
+                    if($scope.newtask){
+                        var v = {
+                            'Title' : $scope.newtask,
+                            'completed' : false,
+                            'Editing' : false
+                        }
+                        $scope.tasks.push(v)
+                    }
+                }
+                $scope.edit = function(task){
+                    task.Editing = true
+                }
+                $scope.dontedit = function(task){
+                    task.Editing = false
+                }
+                $scope.deletetask = function(task){
+                    var i = $scope.tasks.indexOf(task)
+                    $scope.tasks.indexOf.splice(i, 1)
+
+                }
+
+            });
+        </script>
+    </head>
+    <body ng-app = "myApp">
+        <div ng-controller = "myCntrl">
+            Enter the name  of task:<input type = "text" ng-model = "newtask">
+            <button ng-click = "add()">add</button>
+            <table border = "1" >
+                <tr>
+                    <th>SLNO</th>
+                    <th>title</th>
+                    <th>status</th>
+                    <th>editing</th>
+                    <th>delete</th>
+                </tr>
+                <tr ng-repeat = "task in tasks">
+                    <td>{{$index + 1}}</td>
+                    <td>
+                        <span ng-show = "!task.Editing" >{{task.Title}}</span>
+                        <input ng-show = "task.Editing" ng-model = "task.Title" type = "text" ng-blur = "dontedit(task)">
+                    </td>
+                    <td><input type = "checkbox" ng-model = "task.completed"></td>
+                    <td><button ng-click = "edit()">Edit</button></td>
+                    <td><button ng-click = "deletetask()">Edit</button></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
